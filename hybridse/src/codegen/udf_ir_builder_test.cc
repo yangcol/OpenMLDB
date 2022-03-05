@@ -974,6 +974,20 @@ TEST_F(UdfIRBuilderTest, reverse) {
     CheckUdf<Nullable<StringRef>, Nullable<StringRef>>(udf_name, StringRef(""), StringRef(""));
     CheckUdf<Nullable<StringRef>, Nullable<StringRef>>(udf_name, nullptr, nullptr);
 }
+
+TEST_F(UdfIRBuilderTest, str_to_hex_test) {
+    auto udf_name = "hex";
+    CheckUdf<Nullable<StringRef>, Nullable<StringRef>>(udf_name, StringRef("537061726B2053514C"), StringRef("Spark SQL"));
+    CheckUdf<Nullable<StringRef>, Nullable<StringRef>>(udf_name, StringRef("68656C6C6F20776F726C64"), StringRef("hello world"));
+    CheckUdf<Nullable<StringRef>, Nullable<StringRef>>(udf_name, nullptr, nullptr);
+}
+
+TEST_F(UdfIRBuilderTest, number_to_hex_test) {
+    auto udf_name = "hex";
+    CheckUdf<Nullable<StringRef>, int64_t>(udf_name, StringRef("13"), 17);
+    CheckUdf<Nullable<StringRef>, int64_t>(udf_name, StringRef("FFFFFFFFFFFFFFFF"), -1);
+    CheckUdf<Nullable<StringRef>, int64_t>(udf_name, nullptr, nullptr);
+}
 }  // namespace codegen
 }  // namespace hybridse
 

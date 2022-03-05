@@ -263,6 +263,9 @@ void string_to_float(codec::StringRef *str, float *v, bool *is_null_ptr);
 void string_to_double(codec::StringRef *str, double *v, bool *is_null_ptr);
 void reverse(codec::StringRef *str, codec::StringRef *output, bool *is_null_ptr);
 
+void number_to_hex(int64_t num, codec::StringRef *output, bool *is_null_ptr);
+void string_to_hex(codec::StringRef *str, codec::StringRef *output, bool *is_null_ptr);
+
 void ucase(codec::StringRef *str, codec::StringRef *output, bool *is_null_ptr);
 /**
  * Allocate string buffer from jit runtime.

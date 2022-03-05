@@ -1832,6 +1832,25 @@ void DefaultUdfLibrary::InitTimeAndDateUdf() {
 
     RegisterAlias("week", "weekofyear");
 
+    
+    RegisterExternal("hex")
+        .args<int64_t>(
+            static_cast<void (*)(int32_t (*)(int64_t)>(udf::v1::number_to_hex))
+        .args<codec::StringRef>(
+            static_cast<void (*)(codec::StringRef*, codec::StringRef*, bool*)>(udf::v1::string_to_hex))
+        .return_by_arg(true)
+        .doc(R"(
+            @brief Formats the number or string to hex display in uppercase.
+
+            Example:
+
+            @code{.sql}
+                select SELECT hex(17);
+                --output 11
+                SELECT hex('Spark SQL');
+                --output 537061726B2053514C
+            @endcode)");
+
     RegisterExternalTemplate<v1::IncOne>("inc")
         .args_in<int16_t, int32_t, int64_t, float, double>()
         .doc(R"(

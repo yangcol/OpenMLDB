@@ -823,6 +823,37 @@ int32_t strcmp(hybridse::codec::StringRef *s1, hybridse::codec::StringRef *s2) {
     return hybridse::codec::StringRef::compare(*s1, *s2);
 }
 
+void number_to_hex(int64_t num, codec::StringRef *output, bool *is_null_ptr) {
+    if (str == nullptr || str->size_ == 0 || output == nullptr || is_null_ptr == nullptr) {
+        return;
+    }
+    std::stringstream ss;
+
+    ss << std::hex << num;
+    char *buffer = AllocManagedStringBuf(ss.c_str().length());
+    strcpy(buffer, ss.c_str());
+    output->size_ = ss.c_str().length();
+    output->data_ = buffer;
+    *is_null_ptr = false;
+}
+
+void string_to_hex(codec::StringRef *str, codec::StringRef *output, bool *is_null_ptr) {
+    if (str == nullptr || str->size_ == 0 || output == nullptr || is_null_ptr == nullptr) {
+        return;
+    }
+
+    std::stringstream ss;
+    for (uint32_t i = 0; i < str->size_; i++) {
+        ss << std::hex << static_cast<int>(str->data_[i]);
+    }
+    char *buffer = AllocManagedStringBuf(ss.c_str().length());
+    strcpy(buffer, ss.c_str());
+
+    output->size_ = ss.c_str().length();
+    output->data_ = buffer;
+    *is_null_ptr = false;
+}
+
 void ucase(codec::StringRef *str, codec::StringRef *output, bool *is_null_ptr) {
     if (str == nullptr || str->size_ == 0 || output == nullptr || is_null_ptr == nullptr) {
         return;
